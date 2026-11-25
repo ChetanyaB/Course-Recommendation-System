@@ -9,7 +9,7 @@ A content-based **course recommender** built with **Flask, Pandas and scikit-lea
 ![Python](https://img.shields.io/badge/Python-3.9+-3776AB?logo=python&logoColor=white)
 ![Flask](https://img.shields.io/badge/Flask-Web%20App-000000?logo=flask)
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-Cosine%20Similarity-F7931E?logo=scikitlearn&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-10%20passed-brightgreen)
+![Tests](https://img.shields.io/badge/tests-11%20passed-brightgreen)
 
 ---
 
@@ -23,7 +23,7 @@ A content-based **course recommender** built with **Flask, Pandas and scikit-lea
 |---|---|
 | ![Similar courses](docs/screenshots/03_similar_courses.png) | ![Unknown subject](docs/screenshots/04_unknown_subject.png) |
 
-> The course thumbnails load from external image URLs in the dataset. These screenshots were taken offline, so the thumbnails show as placeholders.
+> Course thumbnails come from external image links in the dataset. If a link is broken or blocked, the app now shows a generated card with the course subject and platform instead of a broken image. These screenshots show those fallback cards.
 
 ---
 
@@ -52,6 +52,7 @@ The notebook `course_recom.ipynb` contains the full exploration and model-buildi
 ├── dataset.csv             # 430 courses: platform, name, instructor, subject, rating, link …
 ├── *.pkl                   # Pre-computed model artefacts (pivot table, similarity matrix, Top-50)
 ├── templates/              # Bootstrap HTML pages
+├── static/img-fallback.js  # Fallback thumbnails for broken image links
 ├── tests/test_app.py       # 10 automated test cases (pytest)
 ├── evaluate.py             # Offline evaluation script
 └── docs/                   # Screenshots, evaluation chart, test report
@@ -90,6 +91,7 @@ Run them with `pip install pytest && pytest -v`.
 | TC08 | Query course excluded from its own results | `AI For Everyone` | Exactly 5 results, none of them the query | ✅ Pass |
 | TC09 | Unknown course name | `xyz` | "Course not found" message | ✅ Pass |
 | TC10 | Case-insensitive course lookup | `ai for everyone` | Results shown | ✅ Pass |
+| TC11 | Broken thumbnail links | Any page | Fallback script loaded; every image has subject data or a label | ✅ Pass |
 
 Full output: [`docs/test_results.txt`](docs/test_results.txt).
 
@@ -102,6 +104,7 @@ Full output: [`docs/test_results.txt`](docs/test_results.txt).
 | Unknown course name on the "similar courses" page | `IndexError` → **500 error** | "Course not found" message |
 | Course lookup was case-sensitive | `ai for everyone` failed | Case-insensitive match |
 | Similar-course cards showed the rating where the subject should be | Header read `4.7` | Header shows the subject |
+| Thumbnails and header buttons are remote Google/Bing image links that expire | Broken-image icons; header buttons could disappear | `static/img-fallback.js` draws a subject card / text label when an image fails |
 
 ---
 

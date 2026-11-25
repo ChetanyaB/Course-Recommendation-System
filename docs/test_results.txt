@@ -1,13 +1,12 @@
-
-tests/test_app.py::test_tc01_home_page_lists_top_50 PASSED               [ 10%]
-tests/test_app.py::test_tc02_subject_search_returns_10_courses PASSED    [ 20%]
-tests/test_app.py::test_tc03_subject_search_is_case_insensitive PASSED   [ 30%]
-tests/test_app.py::test_tc04_subject_with_trailing_space_in_dataset PASSED [ 40%]
-tests/test_app.py::test_tc05_unknown_subject_shows_friendly_message PASSED [ 50%]
-tests/test_app.py::test_tc06_empty_subject_shows_friendly_message PASSED [ 60%]
-tests/test_app.py::test_tc07_similar_courses_returns_5 PASSED            [ 70%]
-tests/test_app.py::test_tc08_similar_courses_excludes_query_course PASSED [ 80%]
-tests/test_app.py::test_tc09_unknown_course_shows_friendly_message PASSED [ 90%]
-tests/test_app.py::test_tc10_course_lookup_is_case_insensitive PASSED    [100%]
-
-============================== 10 passed in 0.31s ==============================
+tests/test_app.py::test_tc01_home_page_lists_top_50 PASSED               [  9%]
+tests/test_app.py::test_tc02_subject_search_returns_10_courses PASSED    [ 18%]
+tests/test_app.py::test_tc03_subject_search_is_case_insensitive PASSED   [ 27%]
+tests/test_app.py::test_tc04_subject_with_trailing_space_in_dataset PASSED [ 36%]
+tests/test_app.py::test_tc05_unknown_subject_shows_friendly_message PASSED [ 45%]
+tests/test_app.py::test_tc06_empty_subject_shows_friendly_message PASSED [ 54%]
+tests/test_app.py::test_tc07_similar_courses_returns_5 PASSED            [ 63%]
+tests/test_app.py::test_tc08_similar_courses_excludes_query_course PASSED [ 72%]
+tests/test_app.py::test_tc09_unknown_course_shows_friendly_message PASSED [ 81%]
+tests/test_app.py::test_tc10_course_lookup_is_case_insensitive PASSED    [ 90%]
+tests/test_app.py::test_tc11_image_fallback_wired_up PASSED              [100%]
+============================== 11 passed in 0.31s ==============================
