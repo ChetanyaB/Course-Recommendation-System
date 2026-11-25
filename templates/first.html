@@ -35,6 +35,9 @@
                 </form>
             </div>
 
+            {% if message %}
+            <div class="col-md-12"><h4 style="color:#ffc107">{{ message }}</h4></div>
+            {% endif %}
             {% if data_list %}
             {% for i in data_list%}
             <div class="col-md-4" style="margin-top:80px" >

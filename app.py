@@ -27,38 +27,17 @@ def recommend_ui():
 
 @app.route('/recommend_course',methods=['post'])
 def recommend2():
-    user_in = request.form.get('user_in')
+    user_in = (request.form.get('user_in') or '').strip().lower()
+    # subjects in the dataset may carry stray whitespace (e.g. 'ui ux designing ')
+    matches = course[course['subject'].str.strip().str.lower() == user_in][0:10]
+    if user_in == '' or matches.empty:
+        message = ("SORRY FOR THE INCONVENIENCE, WE WILL UPDATE SOON. "
+                   "UNTIL THEN YOU CAN REFER TO OUR TOP 50 COURSES")
+        return render_template('first.html', data_list=[], message=message)
     data_list = []
-    v=0
-    sub_name = user_in.lower()
-    for i, row in course.iterrows():
-        if row['subject'] == sub_name:
-            itm = []
-            tem_df = course[course['subject'] == sub_name][0:10]
-            itm.extend(list(tem_df['course name'].values))
-            itm.extend(list(tem_df['description'].values))
-            itm.extend(list(tem_df['image'].values))
-            itm.extend(list(tem_df['rating'].values))
-            itm.extend(list(tem_df['platform'].values))
-            itm.extend(list(tem_df['subject'].values))
-            itm.extend(list(tem_df['link'].values))
-            v = v + 1
-
-    data_ = itm
-    for i in range(10):
-        it = []
-        it.append(data_[i])
-        it.append(data_[i + 10])
-        it.append(data_[i + 20])
-        it.append(data_[i + 30])
-        it.append(data_[i + 40])
-        it.append(data_[i + 50])
-        it.append(data_[i + 60])
-        data_list.append(it)
-    if v != 0:
-        print(data_list)
-    else:
-        print("SORRY FOR THE INCONVENIENCE WE WILL UPDATE SOON , UNTIL THEN YOU CAN REFER ARE TOP 50 COURSES")
+    for _, row in matches.iterrows():
+        data_list.append([row['course name'], row['description'], row['image'],
+                          row['rating'], row['platform'], row['subject'], row['link']])
     return render_template('first.html', data_list=data_list)
 
 @app.route('/recommended')
@@ -67,8 +46,12 @@ def recommend_uix():
 
 @app.route('/recommend_course_',methods=['post'])
 def recommend():
-    user_input=request.form.get('user_input')
-    index = np.where(pt.index == user_input)[0][0]
+    user_input=(request.form.get('user_input') or '').strip()
+    positions = np.where(pt.index.str.lower() == user_input.lower())[0]
+    if len(positions) == 0:
+        return render_template('recommend.html', data=[],
+                               message='Course not found. Please enter the exact course name from the Top 50 list.')
+    index = positions[0]
     similar_items = sorted(list(enumerate(similarity_score[index])), key=lambda x: x[1], reverse=True)[1:6]
     data = []
     for i in similar_items:
@@ -82,7 +65,6 @@ def recommend():
         item.extend(list(temp_df.drop_duplicates('course name')['rating'].values))
         item.extend(list(temp_df.drop_duplicates('course name')['link'].values))
         data.append(item)
-    print(data)
     return render_template('recommend.html', data=data)
 
 if __name__=='__main__':
