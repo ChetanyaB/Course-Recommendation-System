@@ -23,7 +23,7 @@ A content-based **course recommender** built with **Flask, Pandas and scikit-lea
 |---|---|
 | ![Similar courses](docs/screenshots/03_similar_courses.png) | ![Unknown subject](docs/screenshots/04_unknown_subject.png) |
 
-> Course thumbnails come from external image links in the dataset. If a link is broken or blocked, the app now shows a generated card with the course subject and platform instead of a broken image. These screenshots show those fallback cards.
+> Course thumbnails come from external image links in the dataset. The two search screenshots show the real course images. The other two show the generated cards (course subject and platform) that the app displays when an image link is broken or blocked.
 
 ---
 
