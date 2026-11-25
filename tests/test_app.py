@@ -83,3 +83,18 @@ def test_tc10_course_lookup_is_case_insensitive(client):
     r = client.post("/recommend_course_", data={"user_input": "ai for everyone"})
     assert r.status_code == 200
     assert b"Course not found" not in r.data
+
+
+def test_tc11_image_fallback_wired_up(client):
+    import re
+    pages = [client.get("/").data,
+             client.post("/recommend_course", data={"user_in": "python"}).data,
+             client.post("/recommend_course_", data={"user_input": "AI For Everyone"}).data]
+    for html in pages:
+        html = html.decode()
+        assert "/static/img-fallback.js" in html
+        for tag in re.findall(r"<img[^>]*>", html):
+            if "data:image" in tag:          # inline images cannot break
+                continue
+            assert "data-subject=" in tag or "data-label=" in tag
+    assert client.get("/static/img-fallback.js").status_code == 200
