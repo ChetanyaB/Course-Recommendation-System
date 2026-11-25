@@ -23,8 +23,6 @@ A content-based **course recommender** built with **Flask, Pandas and scikit-lea
 |---|---|
 | ![Similar courses](docs/screenshots/03_similar_courses.png) | ![Unknown subject](docs/screenshots/04_unknown_subject.png) |
 
-> Course thumbnails come from external image links in the dataset. The two search screenshots show the real course images. The other two show the generated cards (course subject and platform) that the app displays when an image link is broken or blocked.
-
 ---
 
 ## 🧠 How it works
@@ -63,6 +61,9 @@ The notebook `course_recom.ipynb` contains the full exploration and model-buildi
 ```bash
 git clone https://github.com/ChetanyaB/Course-Recommendation-System.git
 cd Course-Recommendation-System
+python -m venv venv
+venv\Scripts\activate            # Windows
+# source venv/bin/activate       # Linux / macOS
 pip install -r requirements.txt
 python app.py            # open http://127.0.0.1:5000
 ```
@@ -95,19 +96,6 @@ Run them with `pip install pytest && pytest -v`.
 
 Full output: [`docs/test_results.txt`](docs/test_results.txt).
 
-### 🐞 Bugs found and fixed during testing
-
-| Issue | Before | After |
-|---|---|---|
-| Unknown subject (e.g. `cooking`) | `UnboundLocalError` → **500 Internal Server Error** | Friendly message |
-| Subject with stray whitespace in data (`ui ux designing `) | **500 error** | Matching now trims whitespace |
-| Unknown course name on the "similar courses" page | `IndexError` → **500 error** | "Course not found" message |
-| Course lookup was case-sensitive | `ai for everyone` failed | Case-insensitive match |
-| Similar-course cards showed the rating where the subject should be | Header read `4.7` | Header shows the subject |
-| Thumbnails and header buttons are remote Google/Bing image links that expire | Broken-image icons; header buttons could disappear | `static/img-fallback.js` draws a subject card / text label when an image fails |
-
----
-
 ## 📊 Evaluation
 
 The catalogue has no user–item interaction data, so the recommender is evaluated offline on the **395 unique courses**. Each course is used as a query and the top-5 recommendations are scored (`python evaluate.py`).
@@ -123,20 +111,9 @@ The catalogue has no user–item interaction data, so the recommender is evaluat
 
 ![Evaluation](docs/screenshots/05_evaluation.png)
 
-**Observations**
-
-- Precision is high because the feature vector is the course's subject profile. Courses tagged with more than one subject (C++/C, front-end and back-end web development) explain the small drop below 1.0.
-- Coverage of 33% shows a **popularity/position bias**: ties in similarity resolve to the same few courses.
-
-**Possible next steps:** add TF-IDF or sentence embeddings over course descriptions, break ties by rating, and collect user ratings for collaborative filtering.
-
 ---
 
 ## 🛠️ Tech stack
 
 `Python` · `Flask` · `Pandas` · `NumPy` · `scikit-learn` · `Bootstrap 5` · `Jinja2` · `pytest`
 
-## 👤 Author
-
-**Chetanya Bhadravati** · M.Tech AI & ML, Symbiosis Institute of Technology
-[LinkedIn](https://www.linkedin.com/in/chetanya-bhadravati-8a3703292) · [GitHub](https://github.com/ChetanyaB)
